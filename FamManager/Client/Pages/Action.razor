@@ -1,0 +1,68 @@
+﻿@page "/actions"
+@page "/actions/add"
+@page "/actions/edit/{actionId:guid}"
+@using FamManager.Shared
+
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<h1>@Title Actions</h1>
+<hr />
+
+<EditForm Model="@action" OnValidSubmit="SaveAction">
+ <DataAnnotationsValidator />
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">User Name <span class="text-danger">*</span></label>
+        <div class="col-sm-10">
+            <InputText type="text" @bind-Value="action.Title" class="form-control" placeholder="" required />
+        </div>
+         <ValidationMessage For="@(() => action.Title)" />
+    </div>    
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Image Path<span class="text-danger">*</span></label>
+        <div class="col-sm-10">
+            <InputText type="text" @bind-Value="action.ImagePath" class="form-control" placeholder="" required />
+        </div>
+         <ValidationMessage For="@(() => action.ImagePath)" />
+    </div>    
+    <div class="form-group row">
+          <div class="col-sm-4">
+        <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-plus-circle"></i> Add Action</button>
+        </div>
+    </div>
+</EditForm>
+
+
+
+@code {
+    [Parameter]
+    public int actionId { get; set; }
+    protected string Title = "Add";
+    protected FamManager.Shared.Models.Action action = new();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (actionId != 0)
+        {
+            Title = "Edit";
+            action = await Http.GetFromJsonAsync<FamManager.Shared.Models.Action>("api/Action/" + actionId);
+        }
+    }
+    protected async Task SaveAction()
+    {
+        if (action.Id != Guid.Empty)
+        {
+            await Http.PutAsJsonAsync("api/Action", action);
+        }
+        else
+        {
+            await Http.PostAsJsonAsync("api/Action", action);
+        }
+        Cancel();
+    }
+    public void Cancel()
+    {
+        //NavigationManager.NavigateTo("/fetchuserdetails");
+    }
+
+}

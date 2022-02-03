@@ -1,0 +1,76 @@
+﻿@page "/teunskalender"
+@using FamManager.Shared
+@inject HttpClient Http
+
+<div class="container">
+<div class="row">
+<div class="col"><h1 class="blueText">Teuns Kalender</h1></div>
+<div class="col"><img src="\images\Lamborghini.jpg" style="width:300px;" /></div>
+</div>
+<h3 class="blueText">Vandaag is het: @dayname</h3>
+<table style="margin-top:25px;" class="customTable">
+    <thead>
+    <tr>
+      <th class="text-center">Tijd</th>
+      <th class="text-center">Maandag</th>
+      <th class="text-center">Dinsdag</th>
+      <th class="text-center">Woensdag</th>
+      <th class="text-center">Donderdag</th>
+      <th class="text-center">Vrijdag</th>
+      <th class="text-center">Zaterdag</th>
+      <th class="text-center">Zondag</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td class="text-center">7:30</td>
+      <td><img src="\images\Aankleden.png" class="icon" /></td>
+      <td><img src="\images\Aankleden.png" class="icon" /></td>
+      <td><img src="\images\Aankleden.png" class="icon" /></td>
+      <td><img src="\images\Aankleden.png" class="icon" /></td>
+      <td><img src="\images\Aankleden.png" class="icon" /></td>
+      <td>Uitslapen</td>
+      <td>Uitslapen</td>
+    </tr>
+     <tr>
+      <td class="text-center">7:45</td>
+      <td><img src="\images\Ontbijten.png" class="icon" /></td> 
+      <td><img src="\images\Ontbijten.png" class="icon" /></td>
+      <td><img src="\images\Ontbijten.png" class="icon" /></td>
+      <td><img src="\images\Ontbijten.png" class="icon" /></td>
+      <td><img src="\images\Ontbijten.png" class="icon" /></td>
+      <td>Uitslapen</td>
+      <td>Uitslapen</td>
+    </tr>
+    </tbody>
+</table>
+
+    <h3 class="blueText" style="margin-top:25px;">Punten verdient deze week:</h3>
+
+    <div class="row">
+        <img src="\images\Groen.png" class="iconpunten" /><img src="\images\Groen.png" class="iconpunten" /><img src="\images\Groen.png" class="iconpunten" /><img src="\images\Groen.png" class="iconpunten" /><img src="\images\Groen.png" class="iconpunten" /><img src="\images\Groen.png" class="iconpunten" /><img src="\images\Rood.png" class="iconpunten" />
+    </div>
+
+    <h3 class="blueText" style="margin-top:25px;">Teun wilt graag deze week:</h3>
+    <ul>
+        <li>Zelf de kleren uittrekken</li>
+        <li>Samen met mama naar intertoys</li>
+        <li>Leren tellen</li>        
+        <li>Minecraften met Roy</li>    
+    </ul>
+    
+</div>
+
+@code {
+    private static DateTime localDate = DateTime.Now;
+    private static string dayname = CapitalizeFirstLetter(localDate.ToString("dddd", new System.Globalization.CultureInfo("nl-NL")));
+
+    public static string CapitalizeFirstLetter(string s)
+{
+    if (String.IsNullOrEmpty(s))
+        return s;
+    if (s.Length == 1)
+        return s.ToUpper();
+    return s.Remove(1).ToUpper() + s.Substring(1);
+}
+}
